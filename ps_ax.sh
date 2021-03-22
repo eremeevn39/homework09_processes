@@ -1,6 +1,7 @@
 #!/bin/bash
-echo "PID" "TTY" "STATE" "TIME_IN_SEC" "CMD_LINE" "COMMAND"
-function ps_ax
+function ps_ax 
+{ echo "PID" "TTY" "STATE" "TIME_IN_SEC" "CMD_LINE" "COMMAND"
+function ps_ax2
 {
     pid_array=`ls /proc | grep -E '^[0-9]+$'`
     HZ=$(getconf CLK_TCK)
@@ -20,8 +21,11 @@ function ps_ax
 			then tty=$( ls -l $fd | awk  '{print $(NR=11)}' )
 			else tty="?"	
 		fi
-	echo $pid $tty $state $time_in_sec $cmd $comm
+	echo $pid $tty $state $time_in_sec $cmd $comm 
 	fi
     done
 }
-ps_ax
+ps_ax2 | sort -k1 -n
+}
+ps_ax | column -t
+
